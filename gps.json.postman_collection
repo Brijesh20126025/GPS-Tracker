@@ -1,0 +1,57 @@
+{
+	"id": "33bf4a3c-429b-32e2-b961-ac9f82998ab6",
+	"name": "gps",
+	"description": "",
+	"order": [
+		"378c3d9c-4630-9e70-76a1-9da7b693efd6",
+		"4c29797a-7df1-b5bb-90ec-4d971e842aca"
+	],
+	"folders": [],
+	"timestamp": 1462815012520,
+	"owner": "261709",
+	"remoteLink": "",
+	"public": false,
+	"requests": [
+		{
+			"id": "378c3d9c-4630-9e70-76a1-9da7b693efd6",
+			"headers": "",
+			"url": "http://localhost:8765/post/lekha/?header1=LOC&imei=863071019288970&sDate=2016-04-19&sTime=12:37:01&lat=12.974576869725799&latdir=N&lon=77.57278382778168&londir=E&speed=0.00&headindAngle=90&panicStatus=1&packetStatus=0&SV=0.1.2&ac_status=1&ack_sts=0&inp_sts=1&ign_sts=1",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "binary",
+			"version": 2,
+			"tests": "tests[\"response code is 200\"] = responseCode.code === 200;\n\ntry {\n    var data = JSON.parse(responseBody);\n    tests[\"Body contains deflated\"] = responseBody.has(\"deflated\");\n    tests[\"Body contains headers\"] = responseBody.has(\"headers\");\n    tests[\"Body contains method\"] = responseBody.has(\"method\");\n}\ncatch(e) {\n    console.log('Cannot parse response,probably not a JSON');\n}\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1462901559679,
+			"name": "lekha post",
+			"description": "",
+			"collectionId": "33bf4a3c-429b-32e2-b961-ac9f82998ab6",
+			"responses": [],
+			"rawModeData": ""
+		},
+		{
+			"id": "4c29797a-7df1-b5bb-90ec-4d971e842aca",
+			"headers": "",
+			"url": "http://localhost:8765/get/pos",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "33bf4a3c-429b-32e2-b961-ac9f82998ab6",
+			"data": [],
+			"dataMode": "binary",
+			"name": "lekha get",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1462895582728,
+			"version": 2,
+			"responses": [],
+			"tests": "tests[\"response code is 200\"] = responseCode.code === 200;\n\ntry {\n    var data = JSON.parse(responseBody);\n    tests[\"Body contains deflated\"] = responseBody.has(\"deflated\");\n    tests[\"Body contains headers\"] = responseBody.has(\"headers\");\n    tests[\"Body contains method\"] = responseBody.has(\"method\");\n}\ncatch(e) {\n    console.log('Cannot parse response,probably not a JSON');\n}\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": ""
+		}
+	]
+}

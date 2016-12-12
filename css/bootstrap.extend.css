@@ -1,0 +1,26 @@
+#map-canvas {
+    height: 700px;
+    margin: 0px;
+    padding: 0px
+}
+
+.form-group {
+    margin-bottom: 15px;
+    width: 50%;
+    margin: 20px auto;
+    border: 2px solid rgba(127, 156, 99, 0.4);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.4);
+    text-align: center;
+   	background-color: #E0E0E0;
+}
+
+.form-group input, .form-group button, .form-group pre {
+    margin: 18px 0;
+   	outline: none;
+}
+
+body  {
+	    background-color: #fff;
+}

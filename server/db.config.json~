@@ -1,0 +1,8 @@
+{
+    "host": "localhost",
+    "port": 27017,
+    "db": "GPSDB",S
+    "collections": {
+        "col": "pos"
+    }
+}

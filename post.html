@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="icon" href="img/icon.png" type="image/png" sizes="16x16"/>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <meta charset="utf-8"/>
+        <title>
+            GPS | Beta
+        </title>
+        <meta name="creator" content="Appsriv"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <!--
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600' rel='stylesheet' type='text/css'/>
+        -->
+        <link rel="stylesheet" href = "css/bootstrap.min.css"/>
+        <link rel="stylesheet" href = "css/bootstrap.extend.css"/>
+    </head>
+    <body>
+        <div class="form-group">
+            <input class="form-control" type="text" id="pos" placeholder="12.9354717,77.6234377"/>
+            <button class="btn btn-lg btn-primary" type="button" onclick="post()">
+                Update Position
+            </button>
+            <button class="btn btn-lg btn-danger" type="button" onclick="post(event)">
+                Auto Update (dummy)
+            </button>
+            <button class="btn btn-lg btn-info" type="button" onclick="getLocal(event)">
+                Send my location
+            </button>
+            <pre id="res" class>
+            </pre>
+        </div>
+        <script src="js/post.js">
+        
+            </script>
+      <script src="js/app.js">
+        
+            </script>
+    </body>
+</html>

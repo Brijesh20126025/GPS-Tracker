@@ -1,0 +1,164 @@
+var db = require("./db");
+//console.log(pHash.verify('password123', hashedP));
+exports = module.exports = {
+    updateGps: function(o, cb) {
+        console.log(o.latlng);
+        db.query("UPDATE `gps` SET `latlng`= GeomFromText('POINT(" + o.latlng.split(",").join(" ") + ")') WHERE imei = ?", [o.imei], function(err, result) {
+            console.log(err);
+            cb(err, result);
+        });
+    },
+
+
+
+//updatepos 
+
+    /*updateData : function(val,err){
+	          var lat = t[0];
+	          var lng = t[1];
+	          var imei = t[2];
+ 		  db.query("update `gps` set `latlg' + 
+	            
+		    },*/
+
+    getAround: function(o, cb) {
+        function getDist(error, results, fields) {
+            var l = results[0];
+            console.log(error, l && l.loc);
+            if (l.loc) {
+                db.query({
+                    //sql: "SELECT name, username FROM users WHERE ST_Distance(loc, GeomFromText('POINT(" + l.loc.x + " " + l.loc.y + ")')) < ?;",
+                    sql: "SELECT username, name ,((((acos(sin((" + l.loc.y + "*pi()/180)) * sin((ST_Y(loc)*pi()/180))+cos((" + l.loc.y + "*pi()/180)) * cos((ST_Y(loc)*pi()/180)) * cos(((" + l.loc.x + "- ST_X(loc))*pi()/180))))*180/pi())*60*1.1515*1.609344)) as `distance` FROM `users` HAVING distance <= ? AND `username` != ? ORDER BY `distance`",
+                    timeout: 40000, // 40s
+                    values: [o.radius, o.username]
+                }, function(error, results, fields) {
+                    cb(error, results);
+                });
+            } else {
+                cb("User location is not set");
+            }
+        }
+        if (o.latlng) {
+            var lt = o.latlng.split(",")[0],
+                ln = o.latlng.split(",")[1];
+            getDist(null, [{
+                loc: {
+                    x: ln,
+                    y: lt
+                }
+            }])
+        } else {
+            db.query({
+                sql: "SELECT loc FROM users WHERE username = ?;",
+                timeout: 40000, // 40s
+                values: [o.username]
+            }, getDist);
+        }
+    },
+    insert: function(o, cb) {
+	console.log("O "+o);
+	//POINT p = new GeometryFromText(POINT(o.lng,o.lat));
+	console.log(o.lat + " "+ o.lon +"user " + o.user);
+       // SET @g = ST_GeomFromText('POINT('+o.lat o.lng+')'); 
+	//var points = [[{x:o.lng,y:o.lat}]];		
+        var opt = {
+	   imei   : o.imei,
+	   header1: o.header1,
+	   sDate  : o.sDate,
+	   sTime  : o.sTime,
+	   latdir : o.latdir,
+	   londir : o.londir,
+	   speed  : o.speed,
+      headingAngle: o.headingAngle,
+       panicstatus: o.panicstatus,
+      packetstatus: o.packetstatus,
+	SV        : o.SV,
+	ac_status : o.ac_status,
+	ack_sts   : o.ack_sts,
+	inp_sts   : o.inp_sts,
+	ing_sts   : o.ing_sts  	    
+        };
+        if(!o.user){
+	console.log("Brijesh..........");
+        db.query('INSERT INTO `gps` SET latlng = POINT(?,?) , ?',[o.lon,o.lat,opt],function(err, result) {
+	
+            console.log(err);
+            cb(err, result);
+        });}
+
+       else{
+           db.query('update gps set user = ?,phone=?,cab=? where imei = ?',[o.user,o.phone,o.cab,o.imei],function(err,result){
+	if(err)
+	console.log("Update Error " + err);
+	cb(err,result);
+	});
+
+	}
+
+	
+
+    },
+    insertMsg: function(o, cb) {
+        db.query('INSERT INTO `messages` SET ?', o, function(err, result) {
+            cb(err, result);
+        });
+    },
+    getDevicePos: function(o, cb) {
+        if (o.imei) {
+            db.query({
+                sql: "SELECT ST_Y(latlng) as lat, ST_X(latlng) as lng  FROM PapriTestDB.gps WHERE `imei` = ?;",
+                timeout: 40000, // 40s
+                values: [o.imei]
+            }, function(error, results, fields) {
+                console.log(error, o.imei, results);
+                cb(error, results);
+            });
+        } else {
+            db.query({
+                sql: "SELECT imei, ST_Y(latlng) as lat, ST_X(latlng) as lng  FROM PapriTestDB.gps;",
+                timeout: 40000, // 40s
+                values: [o.imei]
+            }, function(error, results, fields) {
+                console.log(error, o.imei, results);
+                cb(error, results);
+            });
+        }
+    },
+    getDevices: function(o, cb) {
+        db.query({
+            sql: "SELECT `imei`  FROM PapriTestDB.gps;",
+            timeout: 40000, // 40s
+            values: []
+        }, function(error, results, fields) {
+            cb(error, results);
+        });
+    },
+    deletePendingMsg: function(o, cb) {
+        db.query({
+            sql: "DELETE FROM PapriTestDB.messages WHERE `to` = ?;",
+            timeout: 40000, // 40s
+            values: [o.username]
+        }, function(error, results, fields) {
+            cb(error, results);
+        });
+    },
+    verifyUser: function(o, cb) {
+        db.query({
+            sql: 'SELECT * FROM `users` WHERE `username` = ?',
+            timeout: 40000,
+            values: [o.username]
+        }, function(error, results, fields) {
+            console.log(error, results);
+            if (!error && results[0] && pHash.verify(o.password, results[0].password)) {
+                cb(null, true);
+            } else if (error) {
+                cb(error);
+            } else {
+                cb("Unauthorized");
+            }
+            // error will be an Error if one occurred during the query
+            // results will contain the results of the query
+            // fields will contain information about the returned results fields (if any)
+        });
+    }
+};

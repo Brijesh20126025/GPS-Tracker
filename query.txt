@@ -1,0 +1,5 @@
+http://localhost:8765/api/register?user=brijeshkumar&phone=8174800714&imei=12343&cab=uber
+
+
+
+
