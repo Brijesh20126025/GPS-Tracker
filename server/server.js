@@ -63,7 +63,12 @@ function user (soc) {
 }
 var pos = {lat:26.7347, lng: 83.3362,imei:5};
 function update() {
-  pos.lat-= 0.1; pos.lng+= 0.1;
+  pos.lat+= 0.1; pos.lng+= 0.1;
+  if(pos.lat > 28 && pos.lng > 85){
+    console.log(pos.lat , pos.lng);
+    pos.lat = 26.7347;
+    pos.lng = 83.3362;
+  }
   io.emit('pos', pos);
   setTimeout(update, 3000);
 }
