@@ -1,6 +1,7 @@
     var map;
     var marker;
     var map_marker= {};
+    var directionsDisplay;
 
 function getPos() {
     var xhttp = new XMLHttpRequest();
@@ -8,6 +9,7 @@ function getPos() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             //alert("Brijesh " + xhttp.responseText);
             loadMap(JSON.parse(xhttp.responseText));
+           // alert(JSON.parse(xhttp.responseText));
           //return (xhttp.responseText);
         }
     };
@@ -51,18 +53,13 @@ function Icon(deg) {
     };
 }
 
-var infowindow = new google.maps.InfoWindow({});
+var infowindow = new google.maps.InfoWindow({}); 
 
-
-
-function loadMap(p) {
-    //console.log(p);
-    //alert("kdkss"+p[0].imei);
-    result = p;
-   // alert("res "+result[0].imei);
-
-
-var styledMapType = new google.maps.StyledMapType(
+ /********************************************************************************************************************************/
+function loadMap(p) 
+{
+      result = p; 
+      var styledMapType = new google.maps.StyledMapType(
             [
               {elementType: 'geometry', stylers: [{color: '#ebe3cd'}]},
               {elementType: 'labels.text.fill', stylers: [{color: '#523735'}]},
@@ -70,7 +67,7 @@ var styledMapType = new google.maps.StyledMapType(
               {
                 featureType: 'administrative',
                 elementType: 'geometry.stroke',
-                stylers: [{color: '#c9b2a6'}]
+                stylers: [{color: '#c9b2a6' }]
               },
               {
                 featureType: 'administrative.land_parcel',
@@ -174,11 +171,15 @@ var styledMapType = new google.maps.StyledMapType(
               }
             ],
             {name: 'Styled Map'});
+            
+             // For route direction on google map .....
+             var directionsService = new google.maps.DirectionsService();
+             directionsDisplay = new google.maps.DirectionsRenderer();
 
     map = new google.maps.Map(document.getElementById('map-canvas'), {
-        zoom: 30,
-        maxZoom: 40,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        zoom: 0,
+        maxZoom: 0,
+        mapTypeId:'roadmap',
         disableDefaultUI: true,
            mapTypeControlOptions: {
                   mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
@@ -186,55 +187,56 @@ var styledMapType = new google.maps.StyledMapType(
           }
     });
 
+     map.setZoom(30);
 
-
-    p.forEach(function(m, i) {
+    p.forEach(function(m, i) 
+    {
         if (m.lat && m.lng) {
 
-               marker = new google.maps.Marker({
-                position: new google.maps.LatLng(m.lng,m.lat),
-                map: map,
-                icon : new Icon(0),
-                title: m.imei,
-                label:m.imei,
-                mapTypeControlOptions: {
-                  mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
-                    'styled_map']
-          }
-            });
-            map_marker[m.imei] = marker;
-           // alert("lat " + m.lat + " lng " + m.lng);
             marker = new google.maps.Marker({position: new google.maps.LatLng(m.lng,m.lat), map: map,title:m.imei,icon : new Icon(0),mapTypeControlOptions: {
                   mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
                     'styled_map']
           }});
+
+             map_marker[m.imei] = marker;
              map.mapTypes.set('styled_map', styledMapType);
              map.setMapTypeId('styled_map');
-
-           //marker.setMap(map);
+            directionsDisplay.setMap(map);
+           
           (function (marker , m){
-
-            // var val = getVal();
-             var contentString ='<p>latitude of Car is ' +m.lng+'<br></p>'+
-            '<p>longitude of Car is '+m.lat+'<br></p>' +
-            '<p>Imei No '+m.imei+'</p>';   
-           google.maps.event.addListener(marker,'click',function(){
-                    infowindow.setContent(contentString);
-                    //alert("Marker click");
-                    infowindow.open(map,marker);
-
+  google.maps.event.addListener(marker,"click",function(event,i){
+                    var start =  new google.maps.LatLng(this.position.lat(),this.position.lng());
+                    var end = new google.maps.LatLng(this.position.lat(),this.position.lng());
+                    var contentString = '<p>latitude of Car is '+this.position.lat()+'<br></p>'+
+                                        '<p>longitude of Car is '+this.position.lng()+'<br></p>'+
+                                        '<p>Imei No '+m.imei+'</p>';
+      var request = {
+      origin: start,
+      destination: end,
+      travelMode: google.maps.TravelMode.DRIVING
+    };
+        directionsService.route(request, function(response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(response);
+        infowindow.setContent(contentString);
+        infowindow.open(map,marker);
+        directionsDisplay.setMap(map);
+      } 
+      else {
+        alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(6) + " failed: " + status);
+      }
+    });                
              });
-           // createMarker(m);
-           // alert(marker.lenght);
-          // alert(marker.getPosition().lat() + " " + marker.getPosition().lng());
         })(marker,m);
      includeMarkers();
    }
- });
+ });  
 }
 
+/**************************************************************************************************************************************/
 
-function getVal() {
+function getVal() 
+{
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
 
@@ -247,9 +249,9 @@ function getVal() {
     xhttp.send();
 }
 
-
 var pt = [];
-function redraw(p) {
+function redraw(p) 
+{
     if (map_marker[p.imei]) {
         map_marker[p.imei].setPosition(p);
         map_marker[p.imei].icon.rotation = p.deg;
@@ -264,28 +266,18 @@ function redraw(p) {
     }
     if (map) 
     map.panTo(p);
-  // includeMarkers();
 }
+
 window.onload = getPos;
-
 var socket = io();
-
 socket.on('pos', function(loc) {
 
    console.log(loc);
     redraw(loc);
 });
 
-/*************************************************************************/
-
-//var infowindow = new google.maps.InfoWindow({
-  //  content: contentString
-  //});
-
-
-/*************************************************************************/
-
-function includeMarkers() {
+function includeMarkers() 
+{
     var bounds = new google.maps.LatLngBounds();
     for (var x in map_marker) {
         bounds.extend(map_marker[x].getPosition());

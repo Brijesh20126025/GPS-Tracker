@@ -38,6 +38,7 @@ app.use(function(req, res) {
 	//console.log("Brijesh");
     res.status(404).send("error");
 });
+
 var server = http.createServer(app).listen(app.get('port'), function() {
     console.info('Express server listening on port ' + app.get('port'));
 });
@@ -53,7 +54,7 @@ process.on('uncaughtException', function(err) {
   //  console.log("Brijehs error");
     console.error(err.stack);
 });
-
+ 
 function user (soc) {
     var id = soc.id;
     soc.on('disconnect', function(){
@@ -61,15 +62,18 @@ function user (soc) {
   });
 
 }
+
 var pos = {lat:26.7347, lng: 83.3362,imei:5};
-function update() {
-  pos.lat+= 0.1; pos.lng+= 0.1;
-  if(pos.lat > 28 && pos.lng > 85){
+function update() 
+{
+ /* pos.lat+= 0.001; pos.lng+= 0.001;
+  if(pos.lat > 28 && pos.lng > 85)
+  {
     console.log(pos.lat , pos.lng);
     pos.lat = 26.7347;
     pos.lng = 83.3362;
   }
   io.emit('pos', pos);
-  setTimeout(update, 3000);
+  setTimeout(update, 3000);*/
 }
 update();

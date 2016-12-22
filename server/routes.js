@@ -14,6 +14,7 @@ console.log('Boottime ' + (new Date()).toString());
 exports.setIO = function(i) {
     io = i;
 };
+
 exports.init = function(router, p) {
     p = p || '.';
     if (!router) {
@@ -27,6 +28,8 @@ exports.init = function(router, p) {
 	1234
 	));
 	});
+    
+
     router.post('/post/:apid', function(req, res) {
         console.log(req.params.apid);
         var q, filter, data;
@@ -88,6 +91,8 @@ exports.init = function(router, p) {
                 break;
         }
     });
+
+
     var url;
     router.get('/api/:apid', function(req, res) {
         var filter, q;
@@ -120,6 +125,7 @@ exports.init = function(router, p) {
                  case 'getDevicePos':
                  console.log(req.query);
                 dbio.getDevicePos(req.query, function(e, dbres) {
+
                     if (e) {
                         res.status(400).send(JSON.stringify({
                             'status': e
