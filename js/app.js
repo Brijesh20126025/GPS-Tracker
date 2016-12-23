@@ -7,10 +7,7 @@ function getPos() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            //alert("Brijesh " + xhttp.responseText);
             loadMap(JSON.parse(xhttp.responseText));
-           // alert(JSON.parse(xhttp.responseText));
-          //return (xhttp.responseText);
         }
     };
     xhttp.open("GET", "api/getDevicePos", true);
@@ -23,7 +20,6 @@ function getLocal() {
         navigator.geolocation.getCurrentPosition(function(position) {
             var locationMarker = null;
             if (locationMarker) {
-                // return if there is a locationMarker bug
                 return;
             }
             lat = position.coords["latitude"];

@@ -66,7 +66,7 @@ function user (soc) {
 var pos = {lat:26.7347, lng: 83.3362,imei:5};
 function update() 
 {
- /* pos.lat+= 0.001; pos.lng+= 0.001;
+  /*pos.lat+= 0.001; pos.lng+= 0.001;
   if(pos.lat > 28 && pos.lng > 85)
   {
     console.log(pos.lat , pos.lng);
