@@ -1,6 +1,10 @@
 var db = require("./db");
 //console.log(pHash.verify('password123', hashedP));
+
 exports = module.exports = {
+
+/***************************************************************************************************************************************/
+
     updateGps: function(o, cb) {
         console.log(o.latlng);
         db.query("UPDATE `gps` SET `latlng`= GeomFromText('POINT(" + o.latlng.split(",").join(" ") + ")') WHERE imei = ?", [o.imei], function(err, result) {
@@ -9,16 +13,8 @@ exports = module.exports = {
         });
     },
 
-//updatepos 
-
-    /*updateData : function(val,err){
-	          var lat = t[0];
-	          var lng = t[1];
-	          var imei = t[2];
- 		  db.query("update `gps` set `latlg' + 
-	            
-		    },*/
-
+/************************************************************************************************************************************/
+    
     getAround: function(o, cb) {
         function getDist(error, results, fields) {
             var l = results[0];
@@ -53,54 +49,69 @@ exports = module.exports = {
             }, getDist);
         }
     },
+
+    /*****************************************************************************************************************************/
+
     insert: function(o, cb) {
 	console.log("O "+o);
-	//POINT p = new GeometryFromText(POINT(o.lng,o.lat));
-	console.log(o.lat + " "+ o.lng +"user " + o.user);
-       // SET @g = ST_GeomFromText('POINT('+o.lat o.lng+')'); 
-	//var points = [[{x:o.lng,y:o.lat}]];		
-        var opt = {
-	   imei   : o.imei,
+	console.log(o.lat + " "+ o.lng +"user " + o.user);		
+    var opt = 
+    { 
 	   header1: o.header1,
 	   sDate  : o.sDate,
 	   sTime  : o.sTime,
 	   latdir : o.latdir,
 	   londir : o.londir,
 	   speed  : o.speed,
-      headingAngle: o.headingAngle,
+       user   : o.user,
+       phone  : o.phone,
+       cab    : o.cab,
+       headingAngle: o.headingAngle,
        panicstatus: o.panicstatus,
-      packetstatus: o.packetstatus,
-	  SV        : o.SV,
-	ac_status : o.ac_status,
-	ack_sts   : o.ack_sts,
-	inp_sts   : o.inp_sts,
-	ing_sts   : o.ing_sts  	    
-        };
-        var p ;
-       /* if(o.lat > o.lng){
-            p = o.lat;
-            o.lat = o.lng;
-            o.lng = p;
-        } */
-        console.log("lat= " + o.lat + "lng = " + o.lng);
-        if(!o.user){
-	    console.log("Brijesh..........");
-        db.query('INSERT INTO `gps` SET latlng = POINT(?,?) , ?',[o.lat,o.lng,opt],function(err, result) {
-	
+       packetstatus: o.packetstatus,
+	   SV        : o.SV,
+	   ac_status : o.ac_status,
+	   ack_sts   : o.ack_sts,
+	   inp_sts   : o.inp_sts,
+	   ing_sts   : o.ing_sts  	    
+    };
+
+        db.query('select *from `gps` where imei= ?',o.imei,function(err,result){
+                  if(result.length!=0){
+                    update();
+                  }else{
+                    register();
+                 }
+
+        });
+
+        function register(){
+            //f=1;
+        console.log("inside the insert function new ly added");
+        db.query('INSERT INTO `gps` SET latlng = POINT(?,?) , ?, imei= ?',[o.lat,o.lng,opt,o.imei],function(err, result) {
+    
+
             console.log(err);
             cb(err, result);
-        });}
+        });
+   }
+        function update(){
+          //  f=0;
+            console.log("inside the updateGps function kkkkkk ");
+            db.query('UPDATE `gps` SET  latlng= POINT(?,?),? WHERE imei= ?', [o.lat,o.lng,opt,o.imei], function(err,result){
+                //console.log("result is" ,result);
+                if(err)
+                console.log("error in updating the gps table " + err);
+                cb(err,result);
+            });
+        }
 
-       else{
-           db.query('update gps set user = ?,phone=?,cab=? where imei = ?',[o.user,o.phone,o.cab,o.imei],function(err,result){
-	if(err)
-	console.log("Update Error " + err);
-	cb(err,result);
-	});
+        console.log("lat= " + o.lat + "lng = " + o.lng);
 
-	}
+},
 
-    },
+/*********************************************************************************************************************************/
+
     insertMsg: function(o, cb) {
         db.query('INSERT INTO `messages` SET ?', o, function(err, result) {
             cb(err, result);
@@ -129,6 +140,9 @@ exports = module.exports = {
             });
         }
     },
+
+/*******************************************************************************************************************************/
+
     getDevices: function(o, cb) {
         db.query({
             sql: "SELECT `imei`  FROM PapriTestDB.gps;",
@@ -138,6 +152,9 @@ exports = module.exports = {
             cb(error, results);
         });
     },
+
+/******************************************************************************************************************************/
+
     deletePendingMsg: function(o, cb) {
         db.query({
             sql: "DELETE FROM PapriTestDB.messages WHERE `to` = ?;",
@@ -147,6 +164,9 @@ exports = module.exports = {
             cb(error, results);
         });
     },
+
+/******************************************************************************************************************************/
+
     verifyUser: function(o, cb) {
         db.query({
             sql: 'SELECT * FROM `users` WHERE `username` = ?',
@@ -166,4 +186,7 @@ exports = module.exports = {
             // fields will contain information about the returned results fields (if any)
         });
     }
+
+/********************************************************************************************************************************/
+
 };
