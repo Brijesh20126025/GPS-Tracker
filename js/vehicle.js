@@ -17,6 +17,11 @@ function getVehicle(id){
                  li = document.createElement('li');
                  li.style.font = "italic bold 20px arial,serif";
                  text = document.createTextNode(m.cab);
+                 img = document.createElement('img');
+                 img.setAttribute("src", "img/taxi.png");
+                 img.setAttribute("height","30px");
+                 img.setAttribute("width","30px");
+                 li.appendChild(img);
                  //alert(text.nodeValue);
                  a = document.createElement('a');
                  a.appendChild(text);
