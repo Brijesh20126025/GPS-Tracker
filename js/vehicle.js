@@ -1,5 +1,6 @@
 function getVehicle(id){
    // alert(id);
+   if(id==1){
     var res={};
     var ul,text;
     var li;
@@ -24,4 +25,5 @@ function getVehicle(id){
     };
     xhttp.open("GET", "api/getDevicePos", true);
     xhttp.send();
+    }
 }
