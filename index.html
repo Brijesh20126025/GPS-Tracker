@@ -13,6 +13,7 @@
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600' rel='stylesheet' type='text/css'/>
         -->
         <link rel="stylesheet" href = "css/bootstrap.min.css"/>
+        <link rel="stylesheet" href = "css/disable.css"/>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDuOyO-FlOw7fy8A6tnNpeLiFiahv5GD00"></script>
         <script src="js/vehicle.js"></script>
         
@@ -71,8 +72,8 @@
     </div>
 	<div class="col-md-3">
 	<div class="menuright">
-  <select id ="ddl" name="ddl" onmousedown="this.value='';" onchange="getVehicle(this.value);">
-  <option value='1'>LRV Transport</option>
+  <select id ="ddl" onmousedown="this.value='';" onchange="getVehicle(this.value)">
+  <option value='1' >LRV Transport</option>
   <option value='2'>Unassigned</option>
   </select>
    <div id="carinfo">
@@ -81,12 +82,12 @@
   </div>
 	</div>
 </div>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/app.js"></script>
      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+   <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-   
 </body>
 </html>

@@ -13,6 +13,8 @@ var http = require('http'),
     cookieParser = require('cookie-parser'),
     compress = require('compression'),
     app = express();
+    dbio = require('./dbio.js');
+
 var options = {};
 app.set('port', process.env.PORT || 8765);
 //app.use(auth);
@@ -29,6 +31,7 @@ app.use(bodyParser.urlencoded({
     limit: '50mb',
     extended: true
 }));
+
 app.use(cookieParser());
 var hs = require('./routes');
 app.use(express.static(path.join(__dirname, '../')));
@@ -43,12 +46,45 @@ var server = http.createServer(app).listen(app.get('port'), function() {
     console.info('Express server listening on port ' + app.get('port'));
 });
 io = require('socket.io')(server);
-hs.setIO(io);
+//hs.setIO(io);
+
+var total_user= 0;
+
+/*app.get('/api/:apid' , function(req,res){
+    console.log("inside server code...");
+    res.end("Hello World");
+    console.log("inside the register");
+    if (req.params.apid == 'register') {
+         // console.log("Req.query " + req.query); 
+                dbio.insert(req.query, function(e, dbres) {
+                    if (e) {
+                            res.status(400).send(JSON.stringify({
+                            'status': e
+                        }));
+                    } 
+                    else {
+                       // socket.emit('pos',dbres);
+                        res.status(200).json(dbres);
+                    }
+                  });
+              }
+});*/
+
+
 io.on('connection', function(socket) {
-    //console.log(socket, Object.keys(socket));
-    new user(socket);
-    
+
+    socket.emit('getDeviceLocation', "geeting all device info...");
+
+    socket.on('updategps', function(msg){
+     //alert("dkdkdk");
+     console.log("client Id "+ socket.id +"-->  ");
+     console.log(msg);
 });
+
+    new user(socket);
+    console.log("Id of connected User " + total_user++ +"--"+socket.id); 
+});
+
 
 process.on('uncaughtException', function(err) {
   //  console.log("Brijehs error");
@@ -58,7 +94,7 @@ process.on('uncaughtException', function(err) {
 function user (soc) {
     var id = soc.id;
     soc.on('disconnect', function(){
-    console.log('user disconnected ', id);
+    console.log('user ' + total_user-- + 'disconnected  id is', id);
   });
 
 }

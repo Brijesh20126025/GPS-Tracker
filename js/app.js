@@ -3,6 +3,8 @@
     var map_marker= {};
     var directionsDisplay;
 
+/*********************************************************************************************************************************/ 
+
 function getPos() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -14,8 +16,9 @@ function getPos() {
     xhttp.send();
 }
 
+/*********************************************************************************************************************************/
+
 function getLocal() {
-    // sets your location as default
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var locationMarker = null;
@@ -36,6 +39,8 @@ function getLocal() {
         });
     }
 }
+
+/*********************************************************************************************************************************/
 
 function Icon(deg) {
     return {
@@ -245,6 +250,8 @@ function getVal()
     xhttp.send();
 }
 
+/*************************************************************************************************************************************/
+
 var pt = [];
 function redraw(p) 
 {
@@ -264,13 +271,34 @@ function redraw(p)
     map.panTo(p);
 }
 
-window.onload = getPos;
-var socket = io();
-socket.on('pos', function(loc) {
+//window.onload = getPos;
 
-   console.log(loc);
-    redraw(loc);
+var socket = io();
+socket.on('getDeviceLocation', function(data) {
+    //alert(data);
+    console.log(data + socket.id);
+    getPos();
+    var msg={
+      imei: 1,
+      lat : 12.1233,
+      lng : 13.2122
+    };
+    //alert(msg);
+    updategps(msg);
+    
 });
+
+function updategps(msg)
+{
+    msg.lat+=0.001;
+    msg.lng+=0.001;
+    socket.emit('updategps',msg);
+    setTimeout(function(){
+      updategps(msg);
+    }, 3000);
+}
+
+/*************************************************************************************************************************************/
 
 function includeMarkers() 
 {
@@ -280,3 +308,5 @@ function includeMarkers()
     }
     map.fitBounds(bounds);
 }
+
+/************************************************************************************************************************************/

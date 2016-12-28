@@ -8,8 +8,7 @@ var path = require('path'),
     request = require('request'),
     dbio = require("./dbio");
 var request = require('request');
-var io;
-
+//var socket = io();
 console.log('Boottime ' + (new Date()).toString());
 exports.setIO = function(i) {
     io = i;
@@ -105,7 +104,7 @@ exports.init = function(router, p) {
                             'status': e
                         }));
                     } else {
-			
+			           // socket.emit('pos',dbres);
                         res.status(200).json(dbres);
                     }
                 });
@@ -121,7 +120,6 @@ exports.init = function(router, p) {
                     }
                 });
                 break;
-                
                  case 'getDevicePos':
                  console.log(req.query);
                 dbio.getDevicePos(req.query, function(e, dbres) {
