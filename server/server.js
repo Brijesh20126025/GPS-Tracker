@@ -42,25 +42,25 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(cookieParser());
-//var hs = require('./routes');
+var hs = require('./routes');
 app.use(express.static(path.join(__dirname, '../')));
 
 //app.use("/uploads", express.static(path.join(__dirname, '../../uploads')));
-//app.use(hs.init(router, './server/'));
-/*app.use(function(req, res) {
+app.use(hs.init(router, './server/'));
+app.use(function(req, res) {
 	//console.log("Brijesh");
     res.status(404).send("error");
-}); */
+}); 
 
 KeepAliveAgent = require('keep-alive-agent');
 
-var getOptions = {
+/*var getOptions = {
     hostname: 'localhost',
     port: 8765,
     path: '/api/register',
     method: 'POST',
     agent: new KeepAliveAgent()
-};
+};*/
 
 var server = http.createServer(app).listen(app.get('port'), function() {
     console.info('Express server listening on port ' + app.get('port'));
@@ -70,7 +70,7 @@ io = require('socket.io')(server);
 
 var total_user= 1;
 
-http.get(getOptions, function(res)                                                                                                                                                              
+/*http.get(getOptions, function(res)                                                                                                                                                              
 {
      res.setEncoding('utf8');
      //console.log(res.query.imei);
@@ -78,7 +78,7 @@ http.get(getOptions, function(res)
         console.log(body);
       });
 });
-
+*/
 app.post('/api/register' , function(req,res){
    //console.log("Inside /");
    //console.log(req.query.imei);//.toString());

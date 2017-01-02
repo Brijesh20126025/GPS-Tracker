@@ -277,7 +277,7 @@ var socket = io();
 socket.on('getDeviceLocation', function(socket) {
     //alert(data);
     //console.log(data + socket.id);
-    getPos();
+     getPos();
     var msg={
       imei: 1,
       lat : 12.1233,

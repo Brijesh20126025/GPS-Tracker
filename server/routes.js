@@ -113,7 +113,7 @@ exports.init = function(router, p) {
             //case 'register':
 
            /***********************************************************************/
-           console.log("dhjddjdjddjd");
+           //console.log("dhjddjdjddjd");
            /*res.setHeader('Connection', 'keep-alive');
            res.setHeader('Content-Type', 'text/event-stream');
            res.setHeader('Cache-Control', 'no-cache');
@@ -131,10 +131,10 @@ exports.init = function(router, p) {
 
           /************************************************************************/
 
-	      */ console.log("Req.query " + req.query); 
+	      /* console.log("Req.query " + req.query); 
                 dbio.insert(req.query, function(e, dbres) {
                     if (e) {
-                        res.status(400).send(JSON.stringify({
+                        res.status(400).send(JSON.stringify/*
                             'status': e
                         }));
                     } else {
@@ -143,6 +143,7 @@ exports.init = function(router, p) {
                     }
                 });
                 break;*/
+
             case 'updateGps':
                 dbio.updateGps(req.query, function(e, dbres) {
                     if (e) {
