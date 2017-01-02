@@ -42,15 +42,15 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(cookieParser());
-var hs = require('./routes');
-app.use(express.static(path.join(__dirname, '../')));
+//var hs = require('./routes');
+app.use(express.static(path.join(__dirname, './')));
 
 //app.use("/uploads", express.static(path.join(__dirname, '../../uploads')));
-app.use(hs.init(router, './server/'));
-app.use(function(req, res) {
+//app.use(hs.init(router, './server/'));
+/*app.use(function(req, res) {
 	//console.log("Brijesh");
     res.status(404).send("error");
-}); 
+}); */
 
 KeepAliveAgent = require('keep-alive-agent');
 
