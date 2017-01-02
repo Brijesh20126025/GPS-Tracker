@@ -106,7 +106,7 @@ exports.init = function(router, p) {
    });
 
     var url;
-    router.post('/api/:apid', function(req, res) {
+    router.get('/api/:apid', function(req, res) {
         var filter, q;
          
         switch (req.params.apid) {
@@ -131,7 +131,7 @@ exports.init = function(router, p) {
 
           /************************************************************************/
 
-	       console.log("Req.query " + req.query); 
+	      */ console.log("Req.query " + req.query); 
                 dbio.insert(req.query, function(e, dbres) {
                     if (e) {
                         res.status(400).send(JSON.stringify({
@@ -142,7 +142,7 @@ exports.init = function(router, p) {
                         res.status(200).json(dbres);
                     }
                 });
-                break;
+                break;*/
             case 'updateGps':
                 dbio.updateGps(req.query, function(e, dbres) {
                     if (e) {

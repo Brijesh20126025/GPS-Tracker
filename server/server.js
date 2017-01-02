@@ -79,11 +79,6 @@ http.get(getOptions, function(res)
       });
 });
 
-app.get('/' , function(req,res){
-
-  res.send("inside / request....");
-});
-
 app.post('/api/register' , function(req,res){
    //console.log("Inside /");
    //console.log(req.query.imei);//.toString());
@@ -136,8 +131,12 @@ dbio.insert(req.query, function(e, dbres) {
               }
 });*/
 
+/*app.get('/' , function(req,res){
 
-/*io.on('connection', function(socket) {
+  res.send("inside / request....");
+});*/
+
+io.on('connection', function(socket) {
      //url = url.parse(socket);
      //console.log(socket.request);
      console.log("Path is " + socket.handshake.url);
@@ -148,7 +147,7 @@ dbio.insert(req.query, function(e, dbres) {
            console.log(msg);
            callback("Ack from server msg receive...");
      });  
-   //  callback("ack  from server " + msg);
+     callback("ack  from server " + msg);
   
     socket.on('msg' , function(msg , call){
       console.log("msg is " + msg);
