@@ -274,9 +274,9 @@ function redraw(p)
 //window.onload = getPos;
 
 var socket = io();
-socket.on('getDeviceLocation', function(data) {
+socket.on('getDeviceLocation', function(socket) {
     //alert(data);
-    console.log(data + socket.id);
+    //console.log(data + socket.id);
     getPos();
     var msg={
       imei: 1,
@@ -285,6 +285,10 @@ socket.on('getDeviceLocation', function(data) {
     };
     //alert(msg);
     updategps(msg);
+    //socket.emit('pi' , {Brijesh: "Brijesh"} , function(fromserver){
+      //  alert(fromserver);
+  // });
+   //updategps();
     
 });
 
@@ -292,7 +296,10 @@ function updategps(msg)
 {
     msg.lat+=0.001;
     msg.lng+=0.001;
-    socket.emit('updategps',msg);
+    socket.emit('updategps', msg , function(ack){
+      //alert(ack);
+      console.log("ack:" + ack);
+    });
     setTimeout(function(){
       updategps(msg);
     }, 3000);

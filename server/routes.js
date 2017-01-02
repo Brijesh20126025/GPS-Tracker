@@ -90,14 +90,48 @@ exports.init = function(router, p) {
                 break;
         }
     });
+  
+   router.get('/test' , function(req,res){
+    console.log("test.........");
+    dbio.fun(req.query , function(e,dbres){
+        if (e) {
+                        res.status(400).send(JSON.stringify({
+                            'status': e
+                        }));
+                    } else {
+                       // socket.emit('pos',dbres);
+                        res.status(200).json(dbres);}
+    });
 
+   });
 
     var url;
-    router.get('/api/:apid', function(req, res) {
+    router.post('/api/:apid', function(req, res) {
         var filter, q;
+         
         switch (req.params.apid) {
-            case 'register':
-	        console.log("Req.query " + req.query); 
+            //case 'register':
+
+           /***********************************************************************/
+           console.log("dhjddjdjddjd");
+           /*res.setHeader('Connection', 'keep-alive');
+           res.setHeader('Content-Type', 'text/event-stream');
+           res.setHeader('Cache-Control', 'no-cache');
+           res.writeHead(200);
+           setTimeout(function() {
+
+              res.write("this is an event");
+              res.flushHeaders();
+           }, 1000);
+
+           setTimeout(function() {
+                res.write("this is another event");
+                res.end(res.query);
+             }, 2000);*/
+
+          /************************************************************************/
+
+	       console.log("Req.query " + req.query); 
                 dbio.insert(req.query, function(e, dbres) {
                     if (e) {
                         res.status(400).send(JSON.stringify({
@@ -174,4 +208,4 @@ exports.init = function(router, p) {
         }
     });
     return router;
-};
+};  

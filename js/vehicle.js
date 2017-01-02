@@ -2,7 +2,7 @@ function getVehicle(id){
     //alert(id);
    if(id==2){
     var div = document.getElementById('getcarinfo');
-    div.removeChild(div);
+   // div.removeChild(div);
    }
    if(id==1){
     var res={};

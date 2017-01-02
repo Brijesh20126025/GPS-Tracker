@@ -5,6 +5,11 @@ var pool = mysql.createPool({
     user: 'admin',
     password: 'abcd1234',
     database: 'PapriTestDB',
+   /* host: '111.118.215.174',
+    user: 'appsrx1a_root',
+    password: 'admin1234',
+    database: 'appsrx1a_Vehicle_DB',
+    port: 3306,*/
     debug: false
 });
 pool.getConnection(function(err, conn) {

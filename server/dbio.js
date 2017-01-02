@@ -91,7 +91,7 @@ exports = module.exports = {
         db.query('INSERT INTO `gps` SET latlng = POINT(?,?) , ?, imei= ?',[o.lat,o.lng,opt,o.imei],function(err, result) {
     
 
-            console.log(err);
+           // console.log(err);
             cb(err, result);
         });
    }
@@ -110,9 +110,19 @@ exports = module.exports = {
 
 },
 
+
+
+    fun: function(o, cb) {
+                console.log("abcdtest");
+        db.query('SELECT * FROM `test`',function(err, result) {
+            cb(err, result);
+        });
+    },
+
 /*********************************************************************************************************************************/
 
     insertMsg: function(o, cb) {
+
         db.query('INSERT INTO `messages` SET ?', o, function(err, result) {
             cb(err, result);
         });
