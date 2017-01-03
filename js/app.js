@@ -6,6 +6,8 @@
 /*********************************************************************************************************************************/ 
 
 function getPos() {
+   // alert("hey baby");
+   console.log("inside getPos method...");
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -180,8 +182,8 @@ function loadMap(p)
     map = new google.maps.Map(document.getElementById('map-canvas'), {
         zoom: 0,
         maxZoom: 0,
-        mapTypeId:'roadmap',
         disableDefaultUI: true,
+        travelMode: google.maps.TravelMode.DRIVING,
            mapTypeControlOptions: {
                   mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
                     'styled_map']
@@ -276,7 +278,7 @@ function redraw(p)
 var socket = io();
 socket.on('getDeviceLocation', function(socket) {
     //alert(data);
-    //console.log(data + socket.id);
+    console.log(socket);
      getPos();
     var msg={
       imei: 1,

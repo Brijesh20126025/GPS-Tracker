@@ -9,7 +9,7 @@ var http = require('http'),
     path = require('path'),
     fs = require('fs-extra'),
     bodyParser = require('body-parser'),
-    router = express.Router(),
+    //router = express.Router(),
     cookieParser = require('cookie-parser'),
     compress = require('compression'),
     dbio = require("./dbio"),
@@ -43,7 +43,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(cookieParser());
 //var hs = require('./routes');
-app.use(express.static(path.join(__dirname, './')));
+app.use(express.static(path.join(__dirname, '../')));
 
 //app.use("/uploads", express.static(path.join(__dirname, '../../uploads')));
 //app.use(hs.init(router, './server/'));
@@ -79,6 +79,11 @@ var total_user= 1;
       });
 });
 */
+
+// Logic Starts..............
+
+/***************************************************************************************************************************************/
+
 app.post('/api/register' , function(req,res){
    //console.log("Inside /");
    //console.log(req.query.imei);//.toString());
@@ -94,6 +99,8 @@ app.post('/api/register' , function(req,res){
 
 });
 
+/***************************************************************************************************************************************/
+
 function insert(req,res){
 
 dbio.insert(req.query, function(e, dbres) {
@@ -107,6 +114,25 @@ dbio.insert(req.query, function(e, dbres) {
                     }
                 });
   }
+
+/**************************************************************************************************************************************/
+
+app.get('/api/getDevicePos' , function(req,res){
+
+  console.log("brijesh");
+
+dbio.getDevicePos(req.query, function(e, dbres) {
+
+                    if (e) {
+                        res.status(400).send(JSON.stringify({
+                            'status': e
+                        }));
+                    } else {
+                        res.status(200).json(dbres);
+                    }
+
+});
+});
 
 
 /****************************************************************************************************************************************/
@@ -131,29 +157,29 @@ dbio.insert(req.query, function(e, dbres) {
               }
 });*/
 
-/*app.get('/' , function(req,res){
-
-  res.send("inside / request....");
-});*/
+/***************************************************************************************************************************************/
 
 io.on('connection', function(socket) {
      //url = url.parse(socket);
      //console.log(socket.request);
      console.log("Path is " + socket.handshake.url);
      console.log("Id of connected User " + total_user++ +"--"+socket.id); 
+
+     //getMap(socket);  // Error getMap() is not defined...
      socket.emit('getDeviceLocation', "geeting all device info...");
+   
     socket.on('updategps', function(msg,callback){
            console.log("client Id "+ socket.id +"-->  ");
            console.log(msg);
            callback("Ack from server msg receive...");
      });  
-     callback("ack  from server " + msg);
+     //callback("ack  from server " + msg);
   
-    socket.on('msg' , function(msg , call){
+    /*socket.on('msg' , function(msg , call){
       console.log("msg is " + msg);
       var ack = "ack from server";
       call(ack);
-    });
+    });*/
 
     socket.on('disconnect' ,function(){
       console.log('user ' + --total_user + ' disconnected  id is', socket.id);
@@ -165,6 +191,8 @@ process.on('uncaughtException', function(err) {
   //  console.log("Brijehs error");
     console.error(err.stack);
 });
+
+/***************************************************************************************************************************************/
  
 /*function user (soc) {
     var id = soc.id;
