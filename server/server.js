@@ -110,7 +110,10 @@ dbio.insert(req.query, function(e, dbres) {
                         }));
                     } else {
                  // socket.emit('pos',dbres);
-                        res.status(200).json(dbres);
+                        var obj = {
+                          ACK : "ACK"
+                        };
+                        res.status(200).json(obj);
                     }
                 });
   }

@@ -89,7 +89,9 @@ exports = module.exports = {
             //f=1;
         console.log("inside the insert function new ly added");
         db.query('INSERT INTO `gps` SET latlng = POINT(?,?) , ?, imei= ?',[o.lat,o.lng,opt,o.imei],function(err, result) {
-    
+            
+            //if(err)
+
 
            // console.log(err);
             cb(err, result);
