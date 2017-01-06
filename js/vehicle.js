@@ -1,9 +1,11 @@
 function getVehicle(id){
-    //alert(id);
    if(id==2){
-    var div = document.getElementById('getcarinfo');
-   // div.removeChild(div);
-   }
+    var div = document.getElementById('carinfo');
+    var visibility = div.style.visibility;
+    if(visibility!="hidden"){
+        div.style.visibility='hidden';
+    }
+}
    if(id==1){
     var res={};
     var ul,text;
@@ -11,6 +13,9 @@ function getVehicle(id){
     div = document.getElementById('carinfo');
     var total_li = div.getElementsByTagName('li').length;
     ul = document.getElementById('getcarinfo');
+    if(div.style.visibility=="hidden"){
+        div.style.visibility='visible';
+    }
     if(total_li == 0)
     {
         var xhttp = new XMLHttpRequest();
@@ -34,13 +39,13 @@ function getVehicle(id){
 
             });
         }
+
+        };
        // div.style.border = "1px solid red";
-    };
      xhttp.open("GET", "api/getDevicePos", true);
      xhttp.send();
- }
     }
-
+}
 }
 
 

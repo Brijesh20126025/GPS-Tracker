@@ -25,6 +25,7 @@ pool.getConnection(function(err, conn) {
     });
     conn.release();
 });
+
 pool.query = function(a, b, c) {
     pool.getConnection(function(err, conn) {
         if (err) {
