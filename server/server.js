@@ -87,14 +87,13 @@ var total_user= 1;
 app.post('/api/register' , function(req,res){
    //console.log("Inside /");
    //console.log(req.query.imei);//.toString());
-   //var imei = req.body.imei;
+   var imei = req.body.imei;
    console.log("server code mei h");
-  // console.log("imei " + imei);
+   console.log(imei);
   // alert(req.query);
-    if(req.body){
+    if(req.query){
     insert(req,res);
   }
-
   //console.log("after the insert....");
 
 });
@@ -110,10 +109,11 @@ dbio.insert(req.body, function(e, dbres) {
                         }));
                     } else {
                  // socket.emit('pos',dbres);
-                        var obj = {
+                        /*var obj = {
                           ACK : "ACK"
-                        };
-                        res.status(200).json(obj);
+                        };*/
+                       // res.status(200).json(obj);
+                       res.status(200).send('ACK');
                     }
                 });
   }
@@ -169,7 +169,6 @@ io.on('connection', function(socket) {
 
      //getMap(socket);  // Error getMap() is not defined...
      socket.emit('getDeviceLocation', "geeting all device info...");
-   
     socket.on('updategps', function(msg,callback){
            console.log("client Id "+ socket.id +"-->  ");
            console.log(msg);

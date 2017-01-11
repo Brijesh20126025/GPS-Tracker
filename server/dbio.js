@@ -82,7 +82,6 @@ exports = module.exports = {
                   }else{
                     register();
                  }
-
         });
 
         function register(){

@@ -207,7 +207,7 @@ function loadMap(p)
             directionsDisplay.setMap(map);
            
           (function (marker , m){
-  google.maps.event.addListener(marker,"click",function(event,i){
+                    google.maps.event.addListener(marker,"click",function(event,i){
                     var start =  new google.maps.LatLng(this.position.lat(),this.position.lng());
                     var end = new google.maps.LatLng(this.position.lat(),this.position.lng());
                     var contentString = '<p>latitude of Car is '+this.position.lat()+'<br></p>'+
