@@ -32,12 +32,12 @@ app.set('port', process.env.PORT || 8765);
 });*/
 
 
-app.use(compress());
-app.use(bodyParser.json({
-    limit: '50mb'
-}));
+//app.use(compress());
+//app.use(bodyParser.json({
+    //limit: '50mb'
+//}));
 app.use(bodyParser.urlencoded({
-    limit: '50mb',
+    //limit: '50mb',
     extended: true
 }));
 
@@ -87,11 +87,11 @@ var total_user= 1;
 app.post('/api/register' , function(req,res){
    //console.log("Inside /");
    //console.log(req.query.imei);//.toString());
-
+   //var imei = req.body.imei;
    console.log("server code mei h");
-   console.log(req.query);
+  // console.log("imei " + imei);
   // alert(req.query);
-    if(req.query){
+    if(req.body){
     insert(req,res);
   }
 
@@ -103,7 +103,7 @@ app.post('/api/register' , function(req,res){
 
 function insert(req,res){
 
-dbio.insert(req.query, function(e, dbres) {
+dbio.insert(req.body, function(e, dbres) {
                     if (e) {
                         res.status(400).send(JSON.stringify({
                             'status': e
