@@ -83,6 +83,7 @@ var total_user= 1;
 // Logic Starts..............
 
 /***************************************************************************************************************************************/
+var flag = 0;
 
 app.post('/api/register' , function(req,res){
    //console.log("Inside /");
@@ -112,6 +113,7 @@ dbio.insert(req.body, function(e, dbres) {
                         /*var obj = {
                           ACK : "ACK"
                         };*/
+                        flag = 1;
                        // res.status(200).json(obj);
                        res.status(200).send('ACK');
                     }
@@ -167,9 +169,18 @@ io.on('connection', function(socket) {
      console.log("Path is " + socket.handshake.url);
      console.log("Id of connected User " + total_user++ +"--"+socket.id); 
 
+     if(flag == 1){
+      
+     }
+
      //getMap(socket);  // Error getMap() is not defined...
      socket.emit('getDeviceLocation', "geeting all device info...");
-    socket.on('updategps', function(msg,callback){
+     socket.on('updategps', function(msg,callback){
+          if(flag == 1){
+            console.log("flag " + flag);
+            socket.emit('getDeviceLocation', "geeting all device info...");
+          }
+           flag = 0;
            console.log("client Id "+ socket.id +"-->  ");
            console.log(msg);
            callback("Ack from server msg receive...");

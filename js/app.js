@@ -210,8 +210,8 @@ function loadMap(p)
                     google.maps.event.addListener(marker,"click",function(event,i){
                     var start =  new google.maps.LatLng(this.position.lat(),this.position.lng());
                     var end = new google.maps.LatLng(this.position.lat(),this.position.lng());
-                    var contentString = '<p>latitude of Car is '+this.position.lat()+'<br></p>'+
-                                        '<p>longitude of Car is '+this.position.lng()+'<br></p>'+
+                    var contentString = '<p>latitude of Car is '+m.lng+'<br></p>'+
+                                        '<p>longitude of Car is '+m.lat+'<br></p>'+
                                         '<p>Imei No '+m.imei+'</p>';
       var request = {
       origin: start,
