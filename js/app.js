@@ -285,7 +285,7 @@ socket.on('getDeviceLocation', function(socket) {
       lng : 13.2122
     };
     //alert(msg);
-    //updategps(msg);
+    updategps(msg);
     //socket.emit('pi' , {Brijesh: "Brijesh"} , function(fromserver){
       //  alert(fromserver);
   // });
@@ -293,18 +293,18 @@ socket.on('getDeviceLocation', function(socket) {
     
 });
 
-/*function updategps(msg)
+function updategps(msg)
 {
-    msg.lat+=0.001;
-    msg.lng+=0.001;
+    //msg.lat+=0.001;
+    //msg.lng+=0.001;
     socket.emit('updategps', msg , function(ack){
       //alert(ack);
       console.log("ack:" + ack);
     });
     setTimeout(function(){
       updategps(msg);
-    }, 3000);
-}*/
+    }, 20000);
+}
 
 /*************************************************************************************************************************************/
 
