@@ -169,8 +169,8 @@ io.on('connection', function(socket) {
      console.log("Path is " + socket.handshake.url);
      console.log("Id of connected User " + total_user++ +"--"+socket.id); 
      //getMap(socket);  // Error getMap() is not defined...
-     socket.emit('getDeviceLocation', "geeting all device info...");
-
+     io.sockets.emit('getDeviceLocation', "geeting all device info...");
+     
      socket.on('updategps', function(msg,callback){
 
          if(flag == 1){
