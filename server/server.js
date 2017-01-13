@@ -173,9 +173,10 @@ io.on('connection', function(socket) {
         if(flag == 1){
             console.log("flag " + flag);
             socket.emit('getDeviceLocation', "geeting all device info...");
+            flag = 0;
           }
      socket.on('updategps', function(msg,callback){
-           flag = 0;
+           
            console.log("client Id "+ socket.id +"-->  ");
            console.log(msg);
            callback("Ack from server msg receive...");
