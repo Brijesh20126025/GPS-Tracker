@@ -205,7 +205,6 @@ function loadMap(p)
              map.mapTypes.set('styled_map', styledMapType);
              map.setMapTypeId('styled_map');
             directionsDisplay.setMap(map);
-           
           (function (marker , m){
                     google.maps.event.addListener(marker,"click",function(event,i){
                     var start =  new google.maps.LatLng(this.position.lat(),this.position.lng());
@@ -279,14 +278,14 @@ var socket = io();
 socket.on('getDeviceLocation', function(socket) {
     //alert(data);
     console.log(socket);
-     getPos();
+    getPos();
     var msg={
       imei: 1,
       lat : 12.1233,
       lng : 13.2122
     };
     //alert(msg);
-    updategps(msg);
+    //updategps(msg);
     //socket.emit('pi' , {Brijesh: "Brijesh"} , function(fromserver){
       //  alert(fromserver);
   // });
