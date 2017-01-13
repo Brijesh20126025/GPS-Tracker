@@ -277,7 +277,7 @@ function redraw(p)
 var socket = io();
 socket.on('getDeviceLocation', function(socket) {
     //alert(data);
-    console.log(socket);
+    //console.log(socket);
     getPos();
     var msg={
       imei: 1,
@@ -293,7 +293,7 @@ socket.on('getDeviceLocation', function(socket) {
     
 });
 
-function updategps(msg)
+/*function updategps(msg)
 {
     msg.lat+=0.001;
     msg.lng+=0.001;
@@ -304,7 +304,7 @@ function updategps(msg)
     setTimeout(function(){
       updategps(msg);
     }, 3000);
-}
+}*/
 
 /*************************************************************************************************************************************/
 
