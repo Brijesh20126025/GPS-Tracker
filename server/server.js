@@ -170,8 +170,11 @@ io.on('connection', function(socket) {
      console.log("Id of connected User " + total_user++ +"--"+socket.id); 
      //getMap(socket);  // Error getMap() is not defined...
      io.sockets.emit('getDeviceLocation', "geeting all device info...");
-     
-     socket.on('updategps', function(msg,callback){
+
+     updategps();
+
+
+    /* socket.on('updategps', function(msg,callback){
 
          if(flag == 1){
             console.log("flag " + flag);
@@ -182,7 +185,7 @@ io.on('connection', function(socket) {
            console.log("client Id "+ socket.id +"-->  ");
            console.log(msg);
            callback("Ack from server msg receive...");
-     });  
+     });  */
      //callback("ack  from server " + msg);
   
     /*socket.on('msg' , function(msg , call){
@@ -196,6 +199,18 @@ io.on('connection', function(socket) {
     });
    // new user(socket);
 });
+
+function updategps(){
+  //console.log("BRIJESHPPP");
+  if(flag==1){
+   io.sockets.emit('updateMarker', "geeting all device info...");
+   //console.log("hiii........");
+   flag = 0;
+  }
+  setInterval(function(){
+    updategps();
+  }, 20000);
+}
 
 process.on('uncaughtException', function(err) {
   //  console.log("Brijehs error");

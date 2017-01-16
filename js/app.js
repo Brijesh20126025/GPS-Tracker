@@ -2,15 +2,21 @@
     var marker;
     var map_marker= {};
     var directionsDisplay;
+    var f;
 
 /*********************************************************************************************************************************/ 
 
-function getPos() {
+function getPos(){
    // alert("hey baby");
    console.log("inside getPos method...");
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
+           if(f==="updateMarker"){
+            console.log("Update Marker called...");
+            redraw(JSON.parse(xhttp.responseText));
+           }
+           else
             loadMap(JSON.parse(xhttp.responseText));
         }
     };
@@ -202,17 +208,22 @@ function loadMap(p)
           }});
 
              map_marker[m.imei] = marker;
+             marker.setMap(map);
              map.mapTypes.set('styled_map', styledMapType);
              map.setMapTypeId('styled_map');
             directionsDisplay.setMap(map);
           (function (marker , m){
+
                     google.maps.event.addListener(marker,"click",function(event,i){
-                    var start =  new google.maps.LatLng(this.position.lat(),this.position.lng());
-                    var end = new google.maps.LatLng(this.position.lat(),this.position.lng());
+                    //var start =  new google.maps.LatLng(m.lng,m.lat);
+                   // var end = new google.maps.LatLng(m.lng,m.lat);
                     var contentString = '<p>latitude of Car is '+m.lng+'<br></p>'+
                                         '<p>longitude of Car is '+m.lat+'<br></p>'+
                                         '<p>Imei No '+m.imei+'</p>';
-      var request = {
+                                         infowindow.setContent(contentString);
+                                         infowindow.open(map,marker);
+                                         map.setZoom(18);
+     /* var request = {
       origin: start,
       destination: end,
       travelMode: google.maps.TravelMode.DRIVING
@@ -220,14 +231,12 @@ function loadMap(p)
         directionsService.route(request, function(response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
         directionsDisplay.setDirections(response);
-        infowindow.setContent(contentString);
-        infowindow.open(map,marker);
         directionsDisplay.setMap(map);
       } 
       else {
         alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(6) + " failed: " + status);
       }
-    });                
+    });  */            
              });
         })(marker,m);
      includeMarkers();
@@ -250,26 +259,67 @@ function getVal()
     xhttp.open("GET", "api/getValcar", true);
     xhttp.send();
 }
-
 /*************************************************************************************************************************************/
-
 var pt = [];
 function redraw(p) 
 {
-    if (map_marker[p.imei]) {
+  
+  console.log("Inside the Redraw...." )
+   /* if (map_marker[p.imei]) {
         map_marker[p.imei].setPosition(p);
         map_marker[p.imei].icon.rotation = p.deg;
         map_marker[p.imei].setIcon(map_marker[p.imei].icon);
-    } else {
-        map_marker[p.imei] = new google.maps.Marker({
-            position: p,
+    } else {*/
+
+      for(var x in map_marker){
+        map_marker[x].setMap(null);
+      }
+
+      p.forEach(function(m,i)
+      {
+            marker = new google.maps.Marker({
+            position: new google.maps.LatLng(m.lng,m.lat),
             map: map,
-            icon: new Icon(p.deg),
-            title: p.imei
+            icon: new Icon(0),
+            title: m.imei
         });
-    }
-    if (map) 
-    map.panTo(p);
+          map_marker[m.imei] = marker;
+            marker.setMap(map);
+                    (function (marker , m){
+
+                    console.log("Brijesh " +  m.imei);
+                    google.maps.event.addListener(marker,"click",function(event,i){
+                    //var start =  new google.maps.LatLng(m.lng,m.lat);
+                   // var end = new google.maps.LatLng(m.lng,m.lat);
+                    var contentString = '<p>latitude of Car is '+m.lng+'<br></p>'+
+                                        '<p>longitude of Car is '+m.lat+'<br></p>'+
+                                        '<p>Imei No '+m.imei+'</p>';
+                                        infowindow.setContent(contentString);
+                                        infowindow.open(map,marker);
+                                         map.setZoom(15);
+     /* var request = {
+      origin: start,
+      destination: end,
+      travelMode: google.maps.TravelMode.DRIVING
+    };*/
+        /*directionsService.route(request, function(response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(response);
+       
+        
+        directionsDisplay.setMap(map);
+      } 
+      else {
+        alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(6) + " failed: " + status);
+      }
+    }); */               
+             });
+            }(marker, m));
+    //}
+    //if (map) 
+   // map.panTo(p);
+  // includeMarkers();
+});
 }
 
 //window.onload = getPos;
@@ -278,14 +328,15 @@ var socket = io();
 socket.on('getDeviceLocation', function(socket) {
     //alert(data);
     //console.log(socket);
+    f = "getDeviceLocation";
     getPos();
-    var msg={
+   /* var msg={
       imei: 1,
       lat : 12.1233,
       lng : 13.2122
-    };
+    };*/
     //alert(msg);
-    updategps(msg);
+    //updategps(msg);
     //socket.emit('pi' , {Brijesh: "Brijesh"} , function(fromserver){
       //  alert(fromserver);
   // });
@@ -293,7 +344,12 @@ socket.on('getDeviceLocation', function(socket) {
     
 });
 
-function updategps(msg)
+socket.on('updateMarker' , function(socket){
+  f = "updateMarker";
+  getPos(f);
+});
+
+/*function updategps(msg)
 {
     //msg.lat+=0.001;
     //msg.lng+=0.001;
@@ -304,7 +360,7 @@ function updategps(msg)
     setTimeout(function(){
       updategps(msg);
     }, 20000);
-}
+}*/
 
 /*************************************************************************************************************************************/
 
@@ -312,6 +368,7 @@ function includeMarkers()
 {
     var bounds = new google.maps.LatLngBounds();
     for (var x in map_marker) {
+     // alert(map_marker[x]);
         bounds.extend(map_marker[x].getPosition());
     }
     map.fitBounds(bounds);
