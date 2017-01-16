@@ -6,14 +6,14 @@
 
 /*********************************************************************************************************************************/ 
 
-function getPos(){
+function getPos(f){
    // alert("hey baby");
    console.log("inside getPos method...");
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
            if(f==="updateMarker"){
-            console.log("Update Marker called...");
+            //console.log("Update Marker called...");
             redraw(JSON.parse(xhttp.responseText));
            }
            else
@@ -329,7 +329,7 @@ socket.on('getDeviceLocation', function(socket) {
     //alert(data);
     //console.log(socket);
     f = "getDeviceLocation";
-    getPos();
+    getPos(f);
    /* var msg={
       imei: 1,
       lat : 12.1233,
