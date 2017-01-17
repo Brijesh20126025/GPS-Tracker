@@ -326,9 +326,9 @@ function redraw(p)
 //window.onload = getPos;
 
 var socket = io();
-var socket = io.connect(localhost, {
+/*var socket = io.connect(localhost, {
     transports: ['websocket']
-});
+});*/
 
 socket.on('getDeviceLocation', function(socket) {
     //alert(data);
