@@ -4,6 +4,7 @@
     var directionsDisplay;
     var f;
 
+/*http://serverfault.com/questions/714534/heroku-error-r14-memory-quota-exceeded-using-node-js*/
 /*********************************************************************************************************************************/ 
 
 function getPos(f){
@@ -325,6 +326,10 @@ function redraw(p)
 //window.onload = getPos;
 
 var socket = io();
+var socket = io.connect(host, {
+    transports: ['websocket']
+});
+
 socket.on('getDeviceLocation', function(socket) {
     //alert(data);
     //console.log(socket);

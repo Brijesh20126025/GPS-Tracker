@@ -67,7 +67,7 @@ var server = http.createServer(app).listen(app.get('port'), function() {
 });
 io = require('socket.io')(server);
 //hs.setIO(io);
-
+io.set('transports', ['websocket']);
 var total_user= 1;
 
 /*http.get(getOptions, function(res)                                                                                                                                                              
