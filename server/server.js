@@ -209,7 +209,7 @@ function updategps(){
   }
   setTimeout(function(){
     updategps();
-  }, 5000);
+  }, 15000);
 }
 
 process.on('uncaughtException', function(err) {
