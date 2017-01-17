@@ -326,7 +326,7 @@ function redraw(p)
 //window.onload = getPos;
 
 var socket = io();
-var socket = io.connect(host, {
+var socket = io.connect(localhost, {
     transports: ['websocket']
 });
 
