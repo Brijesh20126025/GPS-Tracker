@@ -197,7 +197,7 @@ function loadMap(p)
           }
     });
 
-     map.setZoom(30);
+     map.setZoom(200);
 
     p.forEach(function(m, i) 
     {
@@ -223,7 +223,8 @@ function loadMap(p)
                                         '<p>Imei No '+m.imei+'</p>';
                                          infowindow.setContent(contentString);
                                          infowindow.open(map,marker);
-                                         map.setZoom(18);
+                                         map.setCenter(marker.getPosition());
+                                         map.setZoom(20);
      /* var request = {
       origin: start,
       destination: end,

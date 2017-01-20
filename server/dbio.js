@@ -144,7 +144,7 @@ exports = module.exports = {
             });
         } else {
             db.query({
-                sql: "SELECT imei, ST_Y(latlng) as lat, ST_X(latlng) as lng , cab  FROM PapriTestDB.gps;",
+                sql: "SELECT imei, ST_Y(latlng) as lat, ST_X(latlng) as lng , cab ,user,sDate FROM PapriTestDB.gps;",
                 timeout: 40000, // 40s
                 values: [o.imei]
             }, function(error, results, fields) {
