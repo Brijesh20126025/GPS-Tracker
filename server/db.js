@@ -58,5 +58,5 @@ pool.query = function(a, b, c) {
             return;
         });
     });
-1.};
+};
 exports = module.exports = pool;

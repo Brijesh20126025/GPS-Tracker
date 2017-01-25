@@ -85,12 +85,27 @@ exports = module.exports = {
         });
 
         function register(){
-            //f=1;
-        console.log("inside the insert function new ly added");
+
+       // console.log("inside the insert function new ly added");
         db.query('INSERT INTO `gps` SET latlng = POINT(?,?) , ?, imei= ?',[o.lat,o.lng,opt,o.imei],function(err, result) {
             
            
+            /*if(o.imei==="863071019288320"){
+                db.query('INSERT INTO `info` set latlng = POINT(?,?)' , [o.lat , o.lng] , function(err, res){
+                    if(err){
+                        return err;
+                    }
+                });
+            }
+            else{
 
+                /*db.query('INSERT INTO `info` set latlng = POINT(?,?)' , [o.lat , o.lng] , function(err, res){
+                    if(err){
+                        return err;
+                    }
+                });*/
+
+            //}
 
            // console.log(err);
             cb(err, result);

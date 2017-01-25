@@ -45,11 +45,16 @@ function getVehicle(id){
                  div.appendChild(ul);
                  a.addEventListener("click" , function(event){
                    document.getElementById(i).innerHTML=
-                   '<div id="collapse1" class="panel-collapse collapse in" style="height:200px;padding:10px;border:2px solid gray;margin:10px">'+
+                   '<div id="collapse1" class="panel-collapse collapse in" style="height:350px;padding:10px;border:2px solid gray;margin:10px">'+
                    '<div class="panel-body">'+
                     '<div>'+
                      '<p>'+
-                     '<img src="img/driver.jpg" width="15px" height="15px"></img> Driver  '+m.user+'<br>'+
+                     '<img src="img/driver.jpg" width="15px" height="15px"></img> <strong>Driver</strong> '+m.user+'<br>'+
+                     '<p><strong>License Plate No</strong> : '+m.cab+'</p>'+
+                     '<p><strong>Speed</strong> : '+m.speed+'</p>'+
+                     '<p><strong>Mobile No</strong> : '+m.phone+'</p>'+
+                     '<p><strong>Latitude</strong> : '+m.lng+'</p>'+
+                     '<p><strong>Longitude</strong>: '+m.lat+'</p>'+
                      '<hr>'+
                     '</p>'+
                     '<p>'+
@@ -74,10 +79,10 @@ function getVehicle(id){
 }
 
 function show(imei){
-    //alert("Brijesh SHow "+ imei);
+    //alert("Brijesh SHow "+ imei);s
     //alert(map.getZoom());
     for(x in map_marker){
-        console.log(x);
+        //console.log(x);
         if(x==imei){
             console.log("brijesh " + x);
             map.setCenter(map_marker[x].getPosition());
@@ -85,9 +90,4 @@ function show(imei){
         }
     }
 }
-
-
-
-
-
 
