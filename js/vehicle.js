@@ -22,7 +22,7 @@ function getVehicle(id){
         if (xhttp.readyState == 4 && xhttp.status == 200){
          var res =JSON.parse(xhttp.responseText);
             res.forEach(function(m,i){   
-                 alert(xhttp.responseText);   
+                 //alert(xhttp.responseText);   
                  indiv = document.createElement('div');
                  indiv.setAttribute("id",i);
                  indiv.setAttribute("class" ,"collapse");
