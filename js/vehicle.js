@@ -22,7 +22,7 @@ function getVehicle(id){
         if (xhttp.readyState == 4 && xhttp.status == 200){
          var res =JSON.parse(xhttp.responseText);
             res.forEach(function(m,i){   
-                // alert(xhttp.responseText);   
+                 alert(xhttp.responseText);   
                  indiv = document.createElement('div');
                  indiv.setAttribute("id",i);
                  indiv.setAttribute("class" ,"collapse");
@@ -51,7 +51,7 @@ function getVehicle(id){
                      '<p>'+
                      '<img src="img/driver.jpg" width="15px" height="15px"></img> <strong>Driver</strong> '+m.user+'<br>'+
                      '<p><strong>License Plate No</strong> : '+m.cab+'</p>'+
-                     '<p><strong>Speed</strong> : '+m.speed+'</p>'+
+                     '<p><strong>Speed</strong> : '+(m.speed=="" ? 0: m.speed)+'</p>'+
                      '<p><strong>Mobile No</strong> : '+m.phone+'</p>'+
                      '<p><strong>Latitude</strong> : '+m.lng+'</p>'+
                      '<p><strong>Longitude</strong>: '+m.lat+'</p>'+
