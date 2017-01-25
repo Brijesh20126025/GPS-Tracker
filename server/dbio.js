@@ -88,29 +88,49 @@ exports = module.exports = {
 
        // console.log("inside the insert function new ly added");
         db.query('INSERT INTO `gps` SET latlng = POINT(?,?) , ?, imei= ?',[o.lat,o.lng,opt,o.imei],function(err, result) {
-            
-           
-            /*if(o.imei==="863071019288320"){
-                db.query('INSERT INTO `info` set latlng = POINT(?,?)' , [o.lat , o.lng] , function(err, res){
-                    if(err){
-                        return err;
-                    }
-                });
-            }
-            else{
-
-                /*db.query('INSERT INTO `info` set latlng = POINT(?,?)' , [o.lat , o.lng] , function(err, res){
-                    if(err){
-                        return err;
-                    }
-                });*/
-
-            //}
-
-           // console.log(err);
+            createTable(o.imei);
             cb(err, result);
         });
    }
+
+
+   function createTable(tb_name){
+
+      db.query('CREATE TABLE ?? (`id` int(11) PRIMARY KEY AUTO_INCREMENT, `latlng` POINT)', [tb_name], function (error, results) {
+                if(error){
+                    console.log("Error in newly Created Tabel..");
+                    throw error;
+                }
+
+               else
+                {
+                    console.log("newly table Created Successfully..");
+                    insert_into_created_table(o.imei);  
+                }
+           
+              });
+               
+   }
+
+
+    function insert_into_created_table(tb_name){
+
+        db.query('INSERT INTO ?? SET latlng = POINT(?,?)', [tb_name,o.lat,o.lng], function(err, result) {
+            if(err){
+                console.log("error in inserting in newly created table");
+                throw err;
+            }
+            else{
+                console.log("data Inserted Successfully in newly created tabel...");
+                return;
+            }
+
+               
+        });
+            
+        
+    }
+
         function update(){
           //  f=0;
             console.log("inside the updateGps function kkkkkk ");
@@ -118,6 +138,9 @@ exports = module.exports = {
                 //console.log("result is" ,result);
                 if(err)
                 console.log("error in updating the gps table " + err);
+                else{
+                    insert_into_created_table(o.imei);
+                }
                 cb(err,result);
             });
         }
@@ -125,8 +148,7 @@ exports = module.exports = {
         console.log("lat= " + o.lat + "lng = " + o.lng);
 
 },
-
-
+  
 
     fun: function(o, cb) {
                 console.log("abcdtest");
@@ -134,6 +156,8 @@ exports = module.exports = {
             cb(err, result);
         });
     },
+
+    // End of Insert...........................
 
 /*********************************************************************************************************************************/
 

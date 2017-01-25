@@ -13,9 +13,9 @@ var http = require('http'),
     cookieParser = require('cookie-parser'),
     compress = require('compression'),
     dbio = require("./dbio"),
+    db = require("./db");
     app = express();
     url = require('url');
-    dbio = require('./dbio.js');
     
 var options = {};
 app.set('port', process.env.PORT || 8765);
@@ -31,11 +31,12 @@ app.set('port', process.env.PORT || 8765);
     next();
 });*/
 
-
-//app.use(compress());
-//app.use(bodyParser.json({
-    //limit: '50mb'
-//}));
+/***************************/
+app.use(compress());
+app.use(bodyParser.json({
+    limit: '50mb'
+}));
+/*************************/
 app.use(bodyParser.urlencoded({
     //limit: '50mb',
     extended: true
@@ -124,7 +125,7 @@ dbio.insert(req.body, function(e, dbres) {
 
 app.get('/api/getDevicePos' , function(req,res){
 
-  console.log("brijesh");
+  //console.log("brijesh");
 
 dbio.getDevicePos(req.query, function(e, dbres) {
 
@@ -137,6 +138,29 @@ dbio.getDevicePos(req.query, function(e, dbres) {
                     }
 
 });
+});
+
+
+
+/****************************************************************************************************************************************/
+
+app.get('/api/getTable', function(req,res){
+
+  console.log(req.query.imei);   
+  db.query("SELECT *FROM  ?? ",req.query.imei , function(err,result){
+      if(err){
+        console.log("Eroor in getting /api/getTable req..");
+        throw err;
+      }
+      else{
+        //console.log(res);
+        res.status(200).json(result);
+      }
+
+  });
+
+  //res.status(200).send("Hello");   
+
 });
 
 /****************************************************************************************************************************************/

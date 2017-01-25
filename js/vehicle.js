@@ -1,3 +1,8 @@
+//var path = require('path');
+
+//var db = require("/../server/db.js");
+//var dbio = require("../server/dbio");
+
 function getVehicle(id){
    if(id==2){
     var div = document.getElementById('carinfo');
@@ -61,8 +66,8 @@ function getVehicle(id){
                      'since '+m.sDate+' to '+ new Date()+'<br>'+
                     '</p>'+
                     '<hr>'+
-                    '<button type="button" onclick = "show('+m.imei+');"style="margin-left:40px;color:purple">Show</button>'+
-                    '<button type="button" style="margin-left:40px;color:red">Track</button>'+
+                    '<button type="button" onclick = "show('+m.imei+');" style="margin-left:40px;color:purple">Show</button>'+
+                    '<button type="button" onclick = "track('+m.imei+');" style="margin-left:40px;color:red">Track</button>'+
                     '<button type="button" style="margin-left:40px;color:blue">Details</button>'+
                     '</div>'+
                     '</div>'+
@@ -90,4 +95,29 @@ function show(imei){
         }
     }
 }
+
+function track(imei){
+    var latlng = [];
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+        if (xhttp.readyState == 4 && xhttp.status == 200){
+            var res = JSON.parse(xhttp.responseText);
+            res.forEach(function(m,i){
+                latlng.push(m.latlng);
+                //alert(m.latlng);
+            });
+            for(var i=0; i < latlng.length; i++){
+              alert(latlng[i].x);
+            }
+
+            //alert(res);
+        }
+    };
+    var url = "api/getTable"+"?"+"imei="+imei;
+    xhttp.open("GET" , url, true);
+    xhttp.send();
+   
+}
+
+
 
