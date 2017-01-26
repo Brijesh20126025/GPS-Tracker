@@ -97,27 +97,51 @@ function show(imei){
 }
 
 function track(imei){
-    var latlng = [];
+    var m;
+   /* var latlng = [];
+    var marker;
+    var bounds = new google.maps.LatLngBounds();
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function(){
         if (xhttp.readyState == 4 && xhttp.status == 200){
+            //alert(xhttp.responseText);
             var res = JSON.parse(xhttp.responseText);
             res.forEach(function(m,i){
-                latlng.push(m.latlng);
-                //alert(m.latlng);
-            });
-            for(var i=0; i < latlng.length; i++){
-              alert(latlng[i].x);
-            }
+                    marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(m.lng,m.lat),
+                    map: map
+                });
+                    //marker.setMap(map);
+                    latlng.push(marker);
+                   // bounds.extend(marker.getPosition());
 
-            //alert(res);
-        }
+        });
+            
+        var flightPath = new google.maps.Polyline({
+            path: latlng,
+            strokeColor: "#FF0000",
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+            });
+            poly = new google.maps.Polyline(flightPath);
+            poly.setMap(map);
+            var bounds = new google.maps.LatLngBounds();
+                for (var x in latlng){
+                bounds.extend(latlng[x].getPosition());
+             }
+            map.fitBounds(bounds);
+            
+           //flightPath.setMap(map);
+         //map.setZoom(18);
+        // map.fitBounds(bounds);
+    }
+
     };
     var url = "api/getTable"+"?"+"imei="+imei;
     xhttp.open("GET" , url, true);
-    xhttp.send();
-   
+    xhttp.send();*/
 }
+
 
 
 
