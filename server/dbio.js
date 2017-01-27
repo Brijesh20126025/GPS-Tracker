@@ -134,7 +134,7 @@ exports = module.exports = {
         function update(){
           //  f=0;
             console.log("inside the updateGps function kkkkkk ");
-            db.query('UPDATE `gps` SET  latlng= POINT(?,?),? WHERE imei= ?', [o.lat,o.lng,opt,o.imei], function(err,result){
+            db.query('UPDATE `gps` SET  latlng= POINT(?,?) WHERE imei= ?', [o.lat,o.lng,o.imei], function(err,result){
                 //console.log("result is" ,result);
                 if(err)
                 console.log("error in updating the gps table " + err);

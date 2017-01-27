@@ -2,7 +2,8 @@
 
 //var db = require("/../server/db.js");
 //var dbio = require("../server/dbio");
-
+ var TRACK = {};
+ var poly="";
 function getVehicle(id){
    if(id==2){
     var div = document.getElementById('carinfo');
@@ -54,7 +55,7 @@ function getVehicle(id){
                    '<div class="panel-body">'+
                     '<div>'+
                      '<p>'+
-                     '<img src="img/driver.jpg" width="15px" height="15px"></img> <strong>Driver</strong> '+m.user+'<br>'+
+                     '<img src="/img/driver.jpg" width="15px" height="15px"></img> <strong>Driver</strong> '+m.user+'<br>'+
                      '<p><strong>License Plate No</strong> : '+m.cab+'</p>'+
                      '<p><strong>Speed</strong> : '+(m.speed=="" ? 0: m.speed)+'</p>'+
                      '<p><strong>Mobile No</strong> : '+m.phone+'</p>'+
@@ -84,11 +85,18 @@ function getVehicle(id){
 }
 
 function show(imei){
+    if(poly){
+        poly.setVisible(false); 
+    }
     //alert("Brijesh SHow "+ imei);s
     //alert(map.getZoom());
     for(x in map_marker){
         //console.log(x);
+        if(map_marker[x].setVisible == false){
+            map_marker[x].setVisible(true);
+        }
         if(x==imei){
+            map_marker[x].setVisible(true);
             console.log("brijesh " + x);
             map.setCenter(map_marker[x].getPosition());
             map.setZoom(25);
@@ -97,49 +105,87 @@ function show(imei){
 }
 
 function track(imei){
-    var m;
-   /* var latlng = [];
-    var marker;
-    var bounds = new google.maps.LatLngBounds();
+    //var m;
+    var latlng =[];
+       //setMapOnAll(null);                  // Clear all markers from the map
+
+    //var marker;
+     for(var x in map_marker){
+        map_marker[x].setVisible(false);
+      }
+        var marker;
+        var bounds = new google.maps.LatLngBounds();
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function(){
         if (xhttp.readyState == 4 && xhttp.status == 200){
-            //alert(xhttp.responseText);
+           // alert(xhttp.responseText);
             var res = JSON.parse(xhttp.responseText);
+
+             var circle ={
+             path: google.maps.SymbolPath.CIRCLE,
+             fillColor: 'red',
+             fillOpacity: .2,
+             scale: 2.5,
+             strokeColor: 'white',
+             strokeWeight: 0.9
+            };
+
             res.forEach(function(m,i){
-                    marker = new google.maps.Marker({
+                console.log(m.lat);
+                console.log(m.lng);
+                     marker = new google.maps.Marker({
                     position: new google.maps.LatLng(m.lng,m.lat),
-                    map: map
+                    map: map,
+                    icon : circle
+        
                 });
+                     // marker.setVisible(false);
+                     (function (marker , m){
+
+                    //console.log("Brijesh " +  m.imei);
+                    google.maps.event.addListener(marker,"mouseover",function(event,i){
+                    //var start =  new google.maps.LatLng(m.lng,m.lat);
+                   // var end = new google.maps.LatLng(m.lng,m.lat);
+                    var contentString = '<p>latitude of Car is '+m.lng+'<br></p>'+
+                                        '<p>longitude of Car is '+m.lat+'<br></p>'+
+                                        '<p>Imei No '+imei+'</p>'+
+                                        '<p>Id No '+m.id+'</p>';
+                                        infowindow.setContent(contentString);
+                                        infowindow.open(map,marker);
+                                        });
+                    }(marker, m));
+
+                    
                     //marker.setMap(map);
-                    latlng.push(marker);
+                    //marker.setMap(map);
+                    TRACK[i]=marker;
+                    latlng.push(marker.getPosition());
                    // bounds.extend(marker.getPosition());
 
-        });
+        });          
             
         var flightPath = new google.maps.Polyline({
             path: latlng,
             strokeColor: "#FF0000",
-            strokeOpacity: 1.0,
-            strokeWeight: 2
+            strokeOpacity: 4.0,
+            strokeWeight: 3
             });
             poly = new google.maps.Polyline(flightPath);
             poly.setMap(map);
             var bounds = new google.maps.LatLngBounds();
-                for (var x in latlng){
-                bounds.extend(latlng[x].getPosition());
+             for (var x in TRACK) {
+                //console.log(TRACK[x]);
+                bounds.extend(TRACK[x].getPosition());
              }
-            map.fitBounds(bounds);
-            
-           //flightPath.setMap(map);
-         //map.setZoom(18);
-        // map.fitBounds(bounds);
+             map.fitBounds(bounds); 
+            //var bounds = new google.maps.LatLngBounds();
+            //map.setZoom(18);
     }
 
     };
     var url = "api/getTable"+"?"+"imei="+imei;
     xhttp.open("GET" , url, true);
-    xhttp.send();*/
+    xhttp.send();
 }
 
 

@@ -147,7 +147,7 @@ dbio.getDevicePos(req.query, function(e, dbres) {
 app.get('/api/getTable', function(req,res){
 
   console.log(req.query.imei);   
-  db.query("SELECT *FROM  ?? ",req.query.imei , function(err,result){
+  db.query("SELECT id , ST_Y(latlng) as lat, ST_X(latlng) as lng FROM ?? ",req.query.imei , function(err,result){
       if(err){
         console.log("Eroor in getting /api/getTable req..");
         throw err;

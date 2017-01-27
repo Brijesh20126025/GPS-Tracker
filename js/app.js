@@ -1,5 +1,4 @@
     var map;
-    var marker;
     var map_marker= {};
     var directionsDisplay;
     var f;
@@ -203,7 +202,7 @@ function loadMap(p)
     {
         if (m.lat && m.lng) {
 
-            marker = new google.maps.Marker({position: new google.maps.LatLng(m.lng,m.lat), map: map,title:m.imei,icon : new Icon(0),mapTypeControlOptions: {
+            var marker = new google.maps.Marker({position: new google.maps.LatLng(m.lng,m.lat), map: map,title:m.imei,icon : new Icon(0),mapTypeControlOptions: {
                   mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
                     'styled_map']
           }});
@@ -212,7 +211,7 @@ function loadMap(p)
              marker.setMap(map);
              map.mapTypes.set('styled_map', styledMapType);
              map.setMapTypeId('styled_map');
-            directionsDisplay.setMap(map);
+             directionsDisplay.setMap(map);
           (function (marker , m){
 
                     google.maps.event.addListener(marker,"click",function(event,i){
@@ -279,7 +278,7 @@ function redraw(p)
 
       p.forEach(function(m,i)
       {
-            marker = new google.maps.Marker({
+            var marker = new google.maps.Marker({
             position: new google.maps.LatLng(m.lng,m.lat),
             map: map,
             icon: new Icon(0),
