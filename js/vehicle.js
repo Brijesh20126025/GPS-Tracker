@@ -86,7 +86,9 @@ function getVehicle(id){
 
 function show(imei){
     if(poly){
-        poly.setVisible(false); 
+       // alert(poly.length);
+      poly.setVisible(false); 
+      poly.setMap(null);
     }
     //alert("Brijesh SHow "+ imei);s
     //alert(map.getZoom());
@@ -118,7 +120,7 @@ function track(imei){
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function(){
         if (xhttp.readyState == 4 && xhttp.status == 200){
-           // alert(xhttp.responseText);
+            //alert(xhttp.responseText);
             var res = JSON.parse(xhttp.responseText);
             
              var circle ={

@@ -144,9 +144,10 @@ dbio.getDevicePos(req.query, function(e, dbres) {
 
 app.get('/api/getTable', function(req,res){
   
-  db.query('SHOW TABLES LIKE ??' , req.query.imei , function(err,result2){
-    if(result2){
-      get_lat_lng(req.query.imei);
+  db.query('SHOW TABLES LIKE ?' , req.query.imei , function(err,result2){
+    if(result2.length!=0){
+      console.log("ressult2 is " ,result2.length);
+      get_lat_lng(req.query.imei,req,res);
     }
     else{
       createTable(req.query.imei);
@@ -155,10 +156,10 @@ app.get('/api/getTable', function(req,res){
   });
 });
   
-  function get_lat_lng(imei){
+  function get_lat_lng(imei,req,res){
 
-  console.log(req.query.imei);   
-  db.query("SELECT id , ST_Y(latlng) as lat, ST_X(latlng) as lng FROM ?? ",req.query.imei , function(err,result){
+  console.log(imei);   
+  db.query("SELECT id , ST_Y(latlng) as lat, ST_X(latlng) as lng FROM ?? ",imei , function(err,result){
       if(err){
 
         console.log("Eroor in getting /api/getTable req..");

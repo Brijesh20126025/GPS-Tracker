@@ -146,8 +146,8 @@ exports = module.exports = {
                             throw err;
                         }
                         else{
-                            if(result2.length > 0){
-                             insert_into_created_table(o.imei);  
+                            if(result2){
+                             insert_into_created_table(imei);  
                             }
                             else
                             {
