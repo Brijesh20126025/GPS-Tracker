@@ -120,7 +120,7 @@ function track(imei){
         if (xhttp.readyState == 4 && xhttp.status == 200){
            // alert(xhttp.responseText);
             var res = JSON.parse(xhttp.responseText);
-
+            
              var circle ={
              path: google.maps.SymbolPath.CIRCLE,
              fillColor: 'red',
@@ -148,13 +148,12 @@ function track(imei){
                    // var end = new google.maps.LatLng(m.lng,m.lat);
                     var contentString = '<p>latitude of Car is '+m.lng+'<br></p>'+
                                         '<p>longitude of Car is '+m.lat+'<br></p>'+
-                                        '<p>Imei No '+imei+'</p>'+
-                                        '<p>Id No '+m.id+'</p>';
+                                        '<p>Imei No '+imei+'</p>';
+                                        //'<p>Id No '+m.id+'</p>';
                                         infowindow.setContent(contentString);
                                         infowindow.open(map,marker);
                                         });
                     }(marker, m));
-
                     
                     //marker.setMap(map);
                     //marker.setMap(map);
@@ -181,7 +180,7 @@ function track(imei){
             //var bounds = new google.maps.LatLngBounds();
             //map.setZoom(18);
     }
-
+    
     };
     var url = "api/getTable"+"?"+"imei="+imei;
     xhttp.open("GET" , url, true);
