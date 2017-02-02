@@ -88,7 +88,10 @@ function show(imei){
     if(poly){
        // alert(poly.length);
       poly.setVisible(false); 
-      poly.setMap(null);
+      for(var x in TRACK){
+        TRACK[x].setVisible(false);
+      }
+      //poly.setMap(null);
     }
     //alert("Brijesh SHow "+ imei);s
     //alert(map.getZoom());
