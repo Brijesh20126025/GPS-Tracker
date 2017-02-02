@@ -13,8 +13,8 @@ var http = require('http'),
     cookieParser = require('cookie-parser'),
     compress = require('compression'),
     dbio = require("./dbio"),
-    db = require("./db");
-    app = express();
+    db = require("./db"),
+    app = express(),
     url = require('url');
     
 var options = {};
@@ -140,15 +140,27 @@ dbio.getDevicePos(req.query, function(e, dbres) {
 });
 });
 
-
-
 /****************************************************************************************************************************************/
 
 app.get('/api/getTable', function(req,res){
+  
+  db.query('SHOW TABLES LIKE ??' , req.query.imei , function(err,result2){
+    if(result2){
+      get_lat_lng(req.query.imei);
+    }
+    else{
+      createTable(req.query.imei);
+    }
+
+  });
+});
+  
+  function get_lat_lng(imei){
 
   console.log(req.query.imei);   
   db.query("SELECT id , ST_Y(latlng) as lat, ST_X(latlng) as lng FROM ?? ",req.query.imei , function(err,result){
       if(err){
+
         console.log("Eroor in getting /api/getTable req..");
         throw err;
       }
@@ -158,10 +170,26 @@ app.get('/api/getTable', function(req,res){
       }
 
   });
+}
 
-  //res.status(200).send("Hello");   
+function createTable(tb_name){
 
-});
+      db.query('CREATE TABLE ?? (`id` int(11) PRIMARY KEY AUTO_INCREMENT, `latlng` POINT)', [tb_name], function (error, results) {
+                if(error){
+                    console.log("Error in newly Created Tabel..");
+                    throw error;
+                }
+
+               else
+                {
+                    console.log("newly table Created Successfully..");
+                }
+           
+              });
+               
+   }
+
+//res.status(200).send("Hello");   
 
 /****************************************************************************************************************************************/
 

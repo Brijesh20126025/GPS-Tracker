@@ -78,13 +78,13 @@ exports = module.exports = {
 
         db.query('select *from `gps` where imei= ?',o.imei,function(err,result){
                   if(result.length!=0){
-                    update();
+                    update(o.imei);
                   }else{
-                    register();
+                    register(o.imei);
                  }
         });
 
-        function register(){
+        function register(imei){
 
        // console.log("inside the insert function new ly added");
         db.query('INSERT INTO `gps` SET latlng = POINT(?,?) , ?, imei= ?',[o.lat,o.lng,opt,o.imei],function(err, result) {
@@ -127,19 +127,36 @@ exports = module.exports = {
 
                
         });
-            
-        
+                   
     }
 
-        function update(){
+        function update(imei){
           //  f=0;
             console.log("inside the updateGps function kkkkkk ");
             db.query('UPDATE `gps` SET  latlng= POINT(?,?) WHERE imei= ?', [o.lat,o.lng,o.imei], function(err,result){
                 //console.log("result is" ,result);
                 if(err)
                 console.log("error in updating the gps table " + err);
+
                 else{
-                    insert_into_created_table(o.imei);
+
+                    db.query('SHOW TABLES LIKE ??' , imei , function(err,result2){
+                        if(err){
+                            console.log("error in checking table existance.");
+                            throw err;
+                        }
+                        else{
+                            if(result2.length > 0){
+                             insert_into_created_table(o.imei);  
+                            }
+                            else
+                            {
+                                createTable(imei);
+                                insert_into_created_table(imei)
+                            }
+                        }
+                    });
+                   
                 }
                 cb(err,result);
             });
